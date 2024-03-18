@@ -6,7 +6,7 @@
 /*   By: trsmith <trsmith@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 10:17:06 by trsmith           #+#    #+#             */
-/*   Updated: 2024/03/13 09:47:12 by trsmith          ###   ########.fr       */
+/*   Updated: 2024/03/18 11:28:03 by trsmith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,27 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*ret;
-	size_t	i;
+	char	*s2;
+	size_t	s_len;
 
-	if (start > ft_strlen(s))
-	{
-		return (ft_strdup(""));
-	}
-	if (len > ft_strlen(s))
-	{
-		len = ft_strlen(s);
-	}
-	ret = (char *)malloc(len + 1);
-	if (!ret)
+	if (s == NULL)
 	{
 		return (NULL);
 	}
-	i = 0;
-	while (i < len && s[start])
+	s_len = ft_strlen(s);
+	if ((size_t)start >= ft_strlen(s))
 	{
-		ret[i] = s[start];
-		i++;
-		start++;
+		return (ft_strdup(""));
 	}
-	ret[i] = '\0';
-	return (ret);
+	if (len > (s_len - start))
+	{
+		len = s_len - start;
+	}
+	s2 = (char *)malloc(len + 1);
+	if (!s2)
+	{
+		return (NULL);
+	}
+	ft_strlcpy(s2, s + start, len + 1);
+	return (s2);
 }

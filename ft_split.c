@@ -6,92 +6,97 @@
 /*   By: trsmith <trsmith@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:48:31 by trsmith           #+#    #+#             */
-/*   Updated: 2024/03/12 14:47:54 by trsmith          ###   ########.fr       */
+/*   Updated: 2024/03/18 11:37:35 by trsmith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_counter(const char *str, char c)
+static int	ft_wcount(const char *s, char c)
 {
 	int	count;
-	int	trigger;
+	int	z;
 
 	count = 0;
-	trigger = 0;
-	while (*str)
+	z = 0;
+	while (*s)
 	{
-		if (*str != c && trigger == 0)
+		if (*s != c && z == 0)
 		{
-			trigger = 1;
+			z = 1;
 			count++;
 		}
-		else if (*str == c)
-			trigger = 0;
-		str++;
+		else if (*s == c)
+			z = 0;
+		s++;
 	}
 	return (count);
 }
 
-static char	*ft_dupe(const char *src, int n)
+static char	*fill_word(const char *str, int start, int end)
 {
-	char	*s;
+	char	*word;
+	int		i;
 
-	s = (char *) malloc(sizeof(char) * (n + 1));
-	if (!s || !src)
-		return (0);
-	s = (char *) ft_memcpy(s, src, n);
-	s[n] = '\0';
-	return (s);
+	i = 0;
+	word = malloc((end - start + 1) * sizeof(char));
+	if (!word)
+		return (NULL);
+	while (start < end)
+	{
+		word[i] = str[start];
+		i++;
+		start++;
+	}
+	word[i] = 0;
+	return (word);
 }
 
-static void	*ft_free_all(char **list)
+static void	*ft_free(char **strs, int count)
 {
 	int	i;
 
 	i = 0;
-	while (list[i])
+	while (i < count)
 	{
-		free(list[i]);
+		free(strs[i]);
 		i++;
 	}
-	free(list);
-	return (list);
+	free(strs);
+	return (NULL);
 }
 
-static void	ft_loop_split(const char *s, char c, char **list)
+static void	initialize(size_t *i, int *j, int *s_word)
 {
-	int		i;
-	int		last_sp;
-	int		n;
-
-	i = 0;
-	n = 0;
-	while (s[i])
-	{
-		while (s[i] == c)
-			i++;
-		last_sp = i;
-		while (s[i] && s[i] != c)
-			i++;
-		if (i > last_sp)
-		{
-			list[n] = ft_dupe(&s[last_sp], (i - last_sp));
-			if (! list[n])
-				ft_free_all(list);
-			n++;
-		}
-	}
-	list[n] = 0;
+	*i = 0;
+	*j = 0;
+	*s_word = -1;
 }
 
 char	**ft_split(const char *s, char c)
 {
-	char	**list;
+	char	**res;
+	size_t	i;
+	int		j;
+	int		s_word;
 
-	list = (char **) malloc(sizeof(char *) * (ft_counter(s, c) + 1));
-	if (!list || !s)
-		return (0);
-	ft_loop_split(s, c, list);
-	return (list);
+	initialize(&i, &j, &s_word);
+	res = ft_calloc((ft_wcount(s, c) + 1), sizeof(char *));
+	if (!res)
+		return (NULL);
+	while (i <= ft_strlen(s))
+	{
+		if (s[i] != c && s_word < 0)
+			s_word = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && s_word >= 0)
+		{
+			res[j] = fill_word(s, s_word, i);
+			if (!(res[j]))
+				return (ft_free(res, j));
+			s_word = -1;
+			j++;
+		}
+		i++;
+	}
+	return (res);
 }
