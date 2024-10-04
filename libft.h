@@ -6,7 +6,7 @@
 /*   By: trsmith <trsmith@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:10:02 by trsmith           #+#    #+#             */
-/*   Updated: 2024/03/15 14:35:22 by trsmith          ###   ########.fr       */
+/*   Updated: 2024/10/04 09:29:54 by trsmith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_calloc(size_t count, size_t size);
+long	ft_atol(const char *str);
+int		ft_wordcount(char *str, int delinimater);
+int		ft_strcmp(const char *s1, const char *s2);
 //bonus//
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del) (void *));
