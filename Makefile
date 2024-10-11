@@ -6,7 +6,7 @@
 #    By: trsmith <trsmith@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 14:28:54 by trsmith           #+#    #+#              #
-#    Updated: 2024/10/04 09:28:52 by trsmith          ###   ########.fr        #
+#    Updated: 2024/10/11 09:24:08 by trsmith          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ $(NAME): $(OBJS)
 all: $(NAME)
 
 clean:
-	$(RM) $(NAME) $(OBJS) $(BONUS_OBJS)
+	$(RM) $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
 	$(RM) $(NAME)
